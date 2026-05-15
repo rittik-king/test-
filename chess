@@ -1,0 +1,58 @@
+pip install pygame
+import pygame
+
+# Initialize Pygame
+pygame.init()
+WIDTH, HEIGHT = 600, 600
+SQUARE_SIZE = WIDTH // 8
+WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("My PC Chess")
+
+# Colors
+WHITE = (240, 217, 181)
+BROWN = (181, 136, 99)
+BLUE = (0, 0, 255)
+
+# Initial Board State (8x8 array)
+# R=Rook, N=Knight, B=Bishop, Q=Queen, K=King, P=Pawn (Lowercase for Black)
+board = [
+    ["r", "n", "b", "q", "k", "b", "n", "r"],
+    ["p", "p", "p", "p", "p", "p", "p", "p"],
+    [" ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " "],
+    ["P", "P", "P", "P", "P", "P", "P", "P"],
+    ["R", "N", "B", "Q", "K", "B", "N", "R"]
+]
+
+def draw_board(win):
+    for row in range(8):
+        for col in range(8):
+            color = WHITE if (row + col) % 2 == 0 else BROWN
+            pygame.draw.rect(win, color, (col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
+            
+            # Placeholder for pieces (Text instead of images for now)
+            piece = board[row][col]
+            if piece != " ":
+                font = pygame.font.SysFont("Arial", 32)
+                text = font.render(piece, True, (0, 0, 0))
+                win.blit(text, (col * SQUARE_SIZE + 25, row * SQUARE_SIZE + 15))
+
+def main():
+    run = True
+    clock = pygame.time.Clock()
+
+    while run:
+        clock.tick(60)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+        draw_board(WIN)
+        pygame.display.update()
+
+    pygame.quit()
+
+if __name__ == "__main__":
+    main()
